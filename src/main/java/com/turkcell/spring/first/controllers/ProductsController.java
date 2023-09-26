@@ -71,7 +71,6 @@ public class ProductsController {
         return new ResponseEntity("Ürün güncellendi", HttpStatus.OK);
     }
 
-
     @PostMapping("deleteProductDto/{productId}")
     public ResponseEntity deleteProductDto(@PathVariable("productId") int productId ) {
         productService.deleteProductDto(productId);
