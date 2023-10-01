@@ -1,7 +1,7 @@
 package com.turkcell.spring.first.controllers;
 
 
-import com.turkcell.spring.first.business.ProductService;
+import com.turkcell.spring.first.business.abstracts.ProductService;
 import com.turkcell.spring.first.entities.Product;
 import com.turkcell.spring.first.entities.dtos.*;
 import org.springframework.beans.factory.annotation.Autowired;

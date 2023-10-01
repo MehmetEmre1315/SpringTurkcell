@@ -1,5 +1,6 @@
-package com.turkcell.spring.first.business;
+package com.turkcell.spring.first.business.concretes;
 
+import com.turkcell.spring.first.business.abstracts.ProductService;
 import com.turkcell.spring.first.entities.Product;
 import com.turkcell.spring.first.entities.dtos.*;
 

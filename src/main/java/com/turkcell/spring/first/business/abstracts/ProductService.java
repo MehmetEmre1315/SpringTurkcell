@@ -1,4 +1,4 @@
-package com.turkcell.spring.first.business;
+package com.turkcell.spring.first.business.abstracts;
 
 import com.turkcell.spring.first.entities.Product;
 import com.turkcell.spring.first.entities.dtos.ProductForAddDto;

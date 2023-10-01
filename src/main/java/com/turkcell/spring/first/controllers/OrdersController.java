@@ -1,7 +1,7 @@
 package com.turkcell.spring.first.controllers;
 
 
-import com.turkcell.spring.first.business.OrderService;
+import com.turkcell.spring.first.business.abstracts.OrderService;
 import com.turkcell.spring.first.entities.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,10 +1,11 @@
 package com.turkcell.spring.first.entities.dtos;
 
-import jakarta.validation.constraints.*;
-import lombok.Data;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
-@Data // Getter+Setter
-public class CategoryForAddDto {
+public class CategoryForUpdateDto {
     @NotBlank(message = "Kategori adı girmek zorunludur.")
     @Size(min=3)
     private String categoryName;

@@ -1,5 +1,7 @@
-package com.turkcell.spring.first.business;
+package com.turkcell.spring.first.business.concretes;
 
+import com.turkcell.spring.first.business.abstracts.CategoryService;
+import com.turkcell.spring.first.business.exceptions.BusinessException;
 import com.turkcell.spring.first.entities.Category;
 import com.turkcell.spring.first.entities.dtos.CategoryForAddDto;
 import com.turkcell.spring.first.entities.dtos.CategoryForListingDto;
@@ -11,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class CategoryManager implements CategoryService{
+public class CategoryManager implements CategoryService {
 
     private final CategoryRepository categoryRepository;
     @Autowired
@@ -69,10 +71,27 @@ public class CategoryManager implements CategoryService{
     }
     public List<Category> searchNativeFirst(String categoryName){return categoryRepository.searchNativeFirst(categoryName);}
 
-    public void addCategoryToDto(CategoryForAddDto request){
+//    public void addCategoryToDto(CategoryForAddDto request){
+//        Category category = new Category();
+//        category.setCategoryName(request.getCategoryName());
+//        category.setDescription(request.getDescription());
+//    }
+
+    public void addCategoryToDto(CategoryForAddDto request) {
+        categoryWithSameNameShouldNotExist(request.getCategoryName());
         Category category = new Category();
         category.setCategoryName(request.getCategoryName());
         category.setDescription(request.getDescription());
+
+        // Mapleme işlemi business içerisinde
+        categoryRepository.save(category);
+    }
+
+    private void categoryWithSameNameShouldNotExist(String categoryName){
+        Category categoryWithSameName = categoryRepository.findByCategoryName(categoryName);
+        if(categoryWithSameName != null){
+            throw new BusinessException("Aynı kategori isminden 2 kategori bulunamaz.");
+        }
     }
 
 }

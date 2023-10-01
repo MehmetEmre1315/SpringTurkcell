@@ -1,10 +1,11 @@
 package com.turkcell.spring.first.controllers;
 
-import com.turkcell.spring.first.business.CategoryService;
+import com.turkcell.spring.first.business.abstracts.CategoryService;
 import com.turkcell.spring.first.entities.Category;
 
 import com.turkcell.spring.first.entities.dtos.CategoryForAddDto;
 import com.turkcell.spring.first.entities.dtos.CategoryForListingDto;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -114,9 +115,10 @@ public class CategoriesController {
     }
 
     @PostMapping("addCategoryToDto")
-    public ResponseEntity addCategoryToDto(@RequestBody CategoryForAddDto request) {
+    public ResponseEntity addCategoryToDto(@RequestBody @Valid CategoryForAddDto request){
         categoryService.addCategoryToDto(request);
-        return new ResponseEntity ("Kategori eklendi", HttpStatus.CREATED);
+        //categoryRepository.save(category);
+        return new ResponseEntity("Kategori eklendi", HttpStatus.CREATED);
     }
 
 

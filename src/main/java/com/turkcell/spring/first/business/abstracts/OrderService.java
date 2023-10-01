@@ -1,4 +1,4 @@
-package com.turkcell.spring.first.business;
+package com.turkcell.spring.first.business.abstracts;
 
 import com.turkcell.spring.first.entities.Category;
 import com.turkcell.spring.first.entities.Order;

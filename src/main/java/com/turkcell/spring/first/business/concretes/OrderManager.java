@@ -1,5 +1,6 @@
-package com.turkcell.spring.first.business;
+package com.turkcell.spring.first.business.concretes;
 
+import com.turkcell.spring.first.business.abstracts.OrderService;
 import com.turkcell.spring.first.entities.Order;
 import com.turkcell.spring.first.repositories.OrderRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class OrderManager implements OrderService  {
+public class OrderManager implements OrderService {
 
     private final OrderRepository orderRepository;
     @Autowired
