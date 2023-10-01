@@ -1,5 +1,7 @@
 package com.turkcell.spring.first.entities.dtos.order;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.util.Date;
@@ -7,7 +9,10 @@ import java.util.Date;
 @Data
 public class OrderForCreateDto {
 
+    @NotBlank(message = "orderId  girmek zorunludur.")
     private int orderId;
+
+    @Size(min=3)
     private String customerId;
     private int employeeId;
     private Date orderDate;
