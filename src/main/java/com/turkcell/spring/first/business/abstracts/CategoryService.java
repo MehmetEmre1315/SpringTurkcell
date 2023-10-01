@@ -1,8 +1,9 @@
 package com.turkcell.spring.first.business.abstracts;
 
 import com.turkcell.spring.first.entities.Category;
-import com.turkcell.spring.first.entities.dtos.CategoryForAddDto;
-import com.turkcell.spring.first.entities.dtos.CategoryForListingDto;
+import com.turkcell.spring.first.entities.dtos.category.CategoryForAddDto;
+import com.turkcell.spring.first.entities.dtos.category.CategoryForListingDto;
+import com.turkcell.spring.first.entities.dtos.category.CategoryForUpdateDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,5 +30,6 @@ public interface CategoryService {
     List<Category> searchEnd(String categoryName);
     List<Category> searchNative(String categoryName);
     List<Category> searchNativeFirst(String categoryName);
+    void updateCategoryDto(CategoryForUpdateDto request);
 
 }

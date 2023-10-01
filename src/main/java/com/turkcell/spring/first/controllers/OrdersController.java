@@ -3,6 +3,9 @@ package com.turkcell.spring.first.controllers;
 
 import com.turkcell.spring.first.business.abstracts.OrderService;
 import com.turkcell.spring.first.entities.Order;
+import com.turkcell.spring.first.entities.dtos.order.OrderForAddDto;
+import com.turkcell.spring.first.entities.dtos.order.OrderForUpdateDto;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -68,6 +71,18 @@ public class OrdersController {
         orderService.deleteOrder(orderId);
         return new ResponseEntity("Sipariş silindi", HttpStatus.OK);
     }
+    @PostMapping("addOrderToDto")
+    public ResponseEntity addOrderToDto(@RequestBody @Valid OrderForAddDto request) {
+        orderService.addOrderToDto(request);
+        return new ResponseEntity ("Sipariş eklendi", HttpStatus.CREATED );
+    }
+
+    @PostMapping("updateOrderDto")
+    public ResponseEntity updateOrderToDto (@RequestBody @Valid OrderForUpdateDto request) {
+        orderService.updateOrderToDto(request);
+        return new ResponseEntity("Sipariş güncellendi", HttpStatus.OK);
+    }
+
 
 
 

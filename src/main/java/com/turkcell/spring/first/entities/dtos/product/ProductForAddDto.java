@@ -1,4 +1,4 @@
-package com.turkcell.spring.first.entities.dtos;
+package com.turkcell.spring.first.entities.dtos.product;
 
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;

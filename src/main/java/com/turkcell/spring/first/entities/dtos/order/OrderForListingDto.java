@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class OrderForReadDto {
+public class OrderForListingDto {
 
     private int orderId;
     private Date orderDate;

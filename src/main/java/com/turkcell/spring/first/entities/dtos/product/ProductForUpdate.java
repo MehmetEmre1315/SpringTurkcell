@@ -1,4 +1,4 @@
-package com.turkcell.spring.first.entities.dtos;
+package com.turkcell.spring.first.entities.dtos.product;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
@@ -20,6 +20,6 @@ public class ProductForUpdate {
     private String quantityPerUnit;
 
     @NotBlank(message = "unitPrice girmek zorunludur.")
-    @DecimalMin(value = "0.0",inclusive = true)
+    @DecimalMin(value = "0.0",inclusive = true,message = "Ürün Fiyatı 0.0 dan küçük olamaz")
     private double unitPrice;
 }

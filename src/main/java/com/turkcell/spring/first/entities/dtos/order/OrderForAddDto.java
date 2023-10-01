@@ -7,23 +7,23 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class OrderForCreateDto {
+public class OrderForAddDto {
 
     @NotBlank(message = "orderId  girmek zorunludur.")
     private int orderId;
 
-    @Size(min=3)
+    @NotBlank
+    @Size(min=3,max=10)
     private String customerId;
-    private int employeeId;
+
+    @NotBlank
     private Date orderDate;
-    private Date requiredDate;
+
+    @NotBlank
     private Date shippedDate;
-    private int shipVia;
-    private double freight;
+
+    @NotBlank
+    @Size(min=3)
     private String shipName;
-    private String shipAddress;
-    private String shipCity;
-    private String shipRegion;
-    private String shipPostalCode;
-    private String shipCountry;
+
 }

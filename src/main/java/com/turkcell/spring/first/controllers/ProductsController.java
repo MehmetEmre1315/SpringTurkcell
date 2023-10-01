@@ -3,7 +3,11 @@ package com.turkcell.spring.first.controllers;
 
 import com.turkcell.spring.first.business.abstracts.ProductService;
 import com.turkcell.spring.first.entities.Product;
-import com.turkcell.spring.first.entities.dtos.*;
+import com.turkcell.spring.first.entities.dtos.product.ProductForAddDto;
+import com.turkcell.spring.first.entities.dtos.product.ProductForListingDto1;
+import com.turkcell.spring.first.entities.dtos.product.ProductForListingDto2;
+import com.turkcell.spring.first.entities.dtos.product.ProductForUpdate;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,14 +64,14 @@ public class ProductsController {
     }
 
     @PostMapping("addProductToDto")
-    public ResponseEntity addProductToDto(@RequestBody ProductForAddDto request) {
+    public ResponseEntity addProductToDto(@RequestBody @Valid ProductForAddDto request) {
         productService.addProductToDto(request);
         return new ResponseEntity ("Ürün eklendi", HttpStatus.CREATED );
     }
 
-    @PostMapping("updateProductDto/{productId}")
-    public ResponseEntity updateProductDto (@PathVariable("productId") int productId, @RequestBody ProductForUpdate updatedProduct) {
-        productService.updateProductDto(productId, updatedProduct);
+    @PostMapping("updateProductDto")
+    public ResponseEntity updateProductDto (@RequestBody @Valid ProductForUpdate request) {
+        productService.updateProductDto(request);
         return new ResponseEntity("Ürün güncellendi", HttpStatus.OK);
     }
 

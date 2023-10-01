@@ -54,4 +54,5 @@ public class Order {
 
     @Column(name = "ship_country")
     private String shipCountry;
+
 }

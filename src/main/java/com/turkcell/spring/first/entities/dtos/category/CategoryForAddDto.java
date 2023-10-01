@@ -1,4 +1,4 @@
-package com.turkcell.spring.first.entities.dtos;
+package com.turkcell.spring.first.entities.dtos.category;
 
 import jakarta.validation.constraints.*;
 import lombok.Data;
@@ -13,7 +13,4 @@ public class CategoryForAddDto {
     @Size(max= 50)
     private String description;
 
-    @DecimalMin(value = "0.0",inclusive = true)
-    @DecimalMax(value = "1.0",inclusive = true)
-    private int discontinued;
 }
