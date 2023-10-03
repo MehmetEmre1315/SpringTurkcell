@@ -20,4 +20,7 @@ public class ProductForAddDto {
     @DecimalMin(value = "0.0",inclusive = true)
     @DecimalMax(value = "1.0",inclusive = true)
     private double unitPrice;
+
+    @DecimalMin(value = "0",inclusive = true)
+    private int unitsInStock;
 }

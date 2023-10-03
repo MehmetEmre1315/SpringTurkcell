@@ -41,6 +41,7 @@ public class CategoryManager implements CategoryService {
     @Override
     public void deleteCategory(int categoryId) {
         categoryRepository.deleteById(categoryId);
+
     }
 
     @Override

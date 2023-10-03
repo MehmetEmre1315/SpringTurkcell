@@ -22,4 +22,7 @@ public class ProductForUpdate {
     @NotBlank(message = "unitPrice girmek zorunludur.")
     @DecimalMin(value = "0.0",inclusive = true,message = "Ürün Fiyatı 0.0 dan küçük olamaz")
     private double unitPrice;
+
+    @DecimalMin(value = "0",inclusive = true)
+    private int unitsInStock;
 }
