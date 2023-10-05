@@ -72,9 +72,11 @@ public class ProductManager implements ProductService {
         productUnitPriceShouldNotBe99(request.getUnitPrice());
 
         Product product = new Product();
+        product.setProductId(request.getProductId());
         product.setProductName(request.getProductName());
         product.setQuantityPerUnit(request.getQuantityPerUnit());
         product.setUnitPrice(request.getUnitPrice());
+        product.setUnitsInStock(request.getUnitsInStock());
         product.setDiscontinued(0);
 
         productRepository.save(product);

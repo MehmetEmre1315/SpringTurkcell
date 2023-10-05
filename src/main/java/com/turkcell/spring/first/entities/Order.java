@@ -1,12 +1,11 @@
 package com.turkcell.spring.first.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Table(name="orders")
@@ -16,11 +15,15 @@ public class Order {
     @Column(name = "order_id")
     private int orderId;
 
-    @Column(name = "customer_id")
-    private String customerId;
+    @ManyToOne()
+    @JoinColumn(name="customer_id")
+    @JsonBackReference
+    private Customer customer;
 
-    @Column(name = "employee_id")
-    private int employeeId;
+    @ManyToOne()
+    @JoinColumn(name="employee_id")
+    @JsonBackReference
+    private Employee employee;
 
     @Column(name = "order_date")
     private Date orderDate;
@@ -31,8 +34,10 @@ public class Order {
     @Column(name = "shipped_date")
     private Date shippedDate;
 
-    @Column(name = "ship_via")
-    private int shipVia;
+    @ManyToOne()
+    @JoinColumn(name="ship_via")
+    @JsonBackReference
+    private Shipper shipper;
 
     @Column(name = "freight")
     private double freight;
@@ -54,5 +59,8 @@ public class Order {
 
     @Column(name = "ship_country")
     private String shipCountry;
+
+    @OneToMany(mappedBy = "order")
+    private List<OrderDetails> orderDetails ;
 
 }

@@ -9,9 +9,12 @@ import lombok.Data;
 @Data
 public class ProductForAddDto {
 
+    private int productId;
+
     @NotBlank(message = "Ürün adı girmek zorunludur.")
     @Size(min=3)
     private String productName;
+
 
     @NotBlank(message = "quantityPerUnit alanı zorunludur.")
     @Size(max= 50)

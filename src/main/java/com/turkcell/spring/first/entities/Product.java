@@ -1,22 +1,29 @@
 package com.turkcell.spring.first.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 @Table(name="products")
 @Entity
 public class Product {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="product_id")
     private int productId;
 
     @Column(name="product_name")
     private String productName;
 
-    @Column(name="supplier_id")
-    private int supplierId;
+    @ManyToOne()
+    @JoinColumn(name="supplier_id")
+    @JsonBackReference
+    private Supplier supplier;
 
     @ManyToOne()
     @JoinColumn(name="category_id")
@@ -40,6 +47,10 @@ public class Product {
 
     @Column(name="discontinued")
     private int discontinued;
+
+    @OneToMany(mappedBy = "product") // Başlangıç
+    @JsonManagedReference
+    private List<OrderDetails> orderDetails; // Varış
 
 
 }

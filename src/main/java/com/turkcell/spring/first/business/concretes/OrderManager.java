@@ -35,7 +35,7 @@ public class OrderManager implements OrderService {
     @Override
     public Order updateOrder(int orderId, Order order) {
         Order existingOrder = orderRepository.findById(orderId).orElseThrow(() -> new EntityNotFoundException("Sipariş bulunamadı"));
-        existingOrder.setCustomerId(order.getCustomerId());
+        //existingOrder.setCustomerId(order.getCustomerId());
         return orderRepository.save(existingOrder);
     }
 
@@ -57,7 +57,7 @@ public class OrderManager implements OrderService {
 
         Order order = new Order();
         order.setOrderId(request.getOrderId());
-        order.setCustomerId(request.getCustomerId());
+        //order.setCustomerId(request.getCustomerId());
         order.setOrderDate(request.getOrderDate());
         order.setShippedDate(request.getShippedDate());
         order.setShipName(request.getShipName());
@@ -73,7 +73,7 @@ public class OrderManager implements OrderService {
 
         Order existingOrder = orderRepository.findByOrderId(request.getOrderId());
         existingOrder.setOrderId(request.getOrderId());
-        existingOrder.setCustomerId(request.getCustomerId());
+        //existingOrder.setCustomerId(request.getCustomerId());
         existingOrder.setOrderDate(request.getOrderDate());
         existingOrder.setShippedDate(request.getShippedDate());
         existingOrder.setShipName(request.getShipName());

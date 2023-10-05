@@ -13,6 +13,7 @@ public class ProductForUpdate {
     private int productId;
 
     @NotBlank(message = "Ürün adı girmek zorunludur.")
+    @Size(min=3)
     @Size(max= 50)
     private String productName;
 
