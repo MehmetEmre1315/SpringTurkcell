@@ -5,7 +5,7 @@ import com.turkcell.spring.first.business.exceptions.BusinessException;
 import com.turkcell.spring.first.entities.Category;
 import com.turkcell.spring.first.entities.Product;
 
-import com.turkcell.spring.first.entities.dtos.category.CategoryForUpdateDto;
+import com.turkcell.spring.first.entities.Supplier;
 import com.turkcell.spring.first.entities.dtos.product.*;
 import com.turkcell.spring.first.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,46 +22,10 @@ public class ProductManager implements ProductService {
         this.productRepository = productRepository;
     }
 
-    @Override
-    public void addProduct(Product product) {
-        productRepository.save(product);
-    }
+    // Manager methods start
 
     @Override
-    public void deleteProduct(int productId) {
-        Product product = getProductById(productId);
-        if (product != null) {
-            productRepository.delete(product);
-        } else {
-            throw new RuntimeException("Product not found");
-        }
-    }
-
-    @Override
-    public Product updateProduct(int productId, Product product) {
-        Product product1 = getProductById(productId);
-        if (product1 != null) {
-            product1.setProductName(product.getProductName());
-            product1.setUnitPrice(product.getUnitPrice());
-            productRepository.save(product1);
-            return product1;
-        } else {
-            throw new RuntimeException("Product not found");
-        }
-    }
-
-    @Override
-    public Product getProductById(int productId) {
-        return productRepository.findById(productId).orElse(null);
-    }
-
-    public List<ProductForListingDto2> getByIdDto(int productId) {
-        return productRepository.getForIdListing(productId);
-
-    }
-
-    @Override
-    public List<ProductForListingDto1> getAllProducts() {
+    public List<ProductForListingDto1> getAllProductsDto() {
         return productRepository.getForListing();
     }
 
@@ -71,41 +35,45 @@ public class ProductManager implements ProductService {
         firstLetterShouldBeUpperCase(request.getProductName());
         productUnitPriceShouldNotBe99(request.getUnitPrice());
 
-        Product product = new Product();
-        product.setProductId(request.getProductId());
-        product.setProductName(request.getProductName());
-        product.setQuantityPerUnit(request.getQuantityPerUnit());
-        product.setUnitPrice(request.getUnitPrice());
-        product.setUnitsInStock(request.getUnitsInStock());
-        product.setDiscontinued(0);
-
-        productRepository.save(product);
+        Product newProduct = Product.builder()
+                .productName(request.getProductName())
+                .quantityPerUnit(request.getQuantityPerUnit())
+                .unitPrice(request.getUnitPrice())
+                .unitsInStock(request.getUnitsInStock())
+                .unitsOnOrder(request.getUnitsOnOrder())
+                .reorderLevel(request.getReorderLevel())
+                .category(Category.builder().categoryId(request.getCategoryId()).build())
+                .supplier(Supplier.builder().supplierId(request.getSupplierId()).build())
+                .discontinued(0)
+                .build();
+        productRepository.save(newProduct);
     }
 
-    public void updateProductDto(ProductForUpdate request){
+    public void updateProductDto(ProductForUpdateDto request){
 
+        productWithSameNameShouldNotExist(request.getProductName());
         firstLetterShouldBeUpperCase(request.getProductName());
         productUnitPriceShouldNotBe99(request.getUnitPrice());
 
-        Product existingProduct = productRepository.findProductByProductId(request.getProductId());
-        existingProduct.setProductName(request.getProductName());
-        existingProduct.setProductName(request.getProductName());
-        existingProduct.setQuantityPerUnit(request.getQuantityPerUnit());
-        existingProduct.setUnitPrice(request.getUnitPrice());
-
+        Product existingProduct = Product.builder()
+                .productId(request.getProductId())
+                .productName(request.getProductName())
+                .quantityPerUnit(request.getQuantityPerUnit())
+                .unitPrice(request.getUnitPrice())
+                .unitsInStock(request.getUnitsInStock())
+                .category(Category.builder().categoryId(request.getCategoryId()).build())
+                .supplier(Supplier.builder().supplierId(request.getSupplierId()).build())
+                .discontinued(0)
+                .build();
         productRepository.save(existingProduct);
     }
 
-    public void deleteProductDto(int productId){
-        ProductForDeleteDto productForDeleteDto = new ProductForDeleteDto();
-        productForDeleteDto.setProductId(productId);
-        Product product = getProductById(productForDeleteDto.getProductId());
-        if (product != null) {
-            productRepository.delete(product);
-        } else {
-            throw new RuntimeException("Product not found");
-        }
+    public void deleteProductDto(ProductForDeleteDto request){
+        Product productToDelete = productRepository.findProductByProductId(request.getId());
+        productRepository.delete(productToDelete);
     }
+
+    // Manager methods end
 
     // Business Rules Başlangıç
     private void productWithSameNameShouldNotExist(String productName){

@@ -2,25 +2,23 @@ package com.turkcell.spring.first.repositories;
 
 import com.turkcell.spring.first.entities.Product;
 import com.turkcell.spring.first.entities.dtos.product.ProductForListingDto1;
-import com.turkcell.spring.first.entities.dtos.product.ProductForListingDto2;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product,Integer> {
 
-    Product findProductByProductId(int productId);
+    Product findProductByProductId(short productId);
     Product findProductByProductName(String productName);
 
-    @Query(value="SELECT new " +
+    //Şunları çıkardım
+    //, p.quantityPerUnit, p.unitPrice, p.unitsInStock, p.unitsOnOrder, p.discontinued
+    @Query(value = "SELECT new " +
             "com.turkcell.spring.first.entities.dtos.product.ProductForListingDto1" +
-            "(p.productId, p.productName, p.quantityPerUnit, p.unitPrice, p.unitsInStock, p.unitsOnOrder, p.discontinued) " +
+            "(p.productId, p.productName) " +
             "FROM Product p")
     List<ProductForListingDto1> getForListing();
-
-    @Query(value="SELECT new com.turkcell.spring.first.entities.dtos.product.ProductForListingDto2 (p.productId, p.productName, p.quantityPerUnit, p.unitPrice, p.unitsInStock, p.unitsOnOrder) FROM Product p  Where p.productId = :ProductId")
-    List<ProductForListingDto2> getForIdListing(int ProductId);
-
-
 }

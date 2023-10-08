@@ -19,7 +19,7 @@ public class Supplier {
     @Id
     @Column(name="supplier_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private short supplierID;
+    private short supplierId;
 
     @Column(name="company_name")
     private String companyName;

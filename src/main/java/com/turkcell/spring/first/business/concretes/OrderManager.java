@@ -56,10 +56,10 @@ public class OrderManager implements OrderService {
         allLetterOfCustomerIdShouldBeUpperCase(request.getCustomerId());
 
         Order order = new Order();
-        order.setOrderId(request.getOrderId());
+        //order.setOrderId(request.getOrderId());
         //order.setCustomerId(request.getCustomerId());
-        order.setOrderDate(request.getOrderDate());
-        order.setShippedDate(request.getShippedDate());
+        //order.setOrderDate(request.getOrderDate());
+        //order.setShippedDate(request.getShippedDate());
         order.setShipName(request.getShipName());
 
         orderRepository.save(order);
@@ -72,10 +72,10 @@ public class OrderManager implements OrderService {
         orderIdShouldBeBiggerThan10000(request.getOrderId());
 
         Order existingOrder = orderRepository.findByOrderId(request.getOrderId());
-        existingOrder.setOrderId(request.getOrderId());
+        //existingOrder.setOrderId(request.getOrderId());
         //existingOrder.setCustomerId(request.getCustomerId());
-        existingOrder.setOrderDate(request.getOrderDate());
-        existingOrder.setShippedDate(request.getShippedDate());
+        //existingOrder.setOrderDate(request.getOrderDate());
+        //existingOrder.setShippedDate(request.getShippedDate());
         existingOrder.setShipName(request.getShipName());
 
         orderRepository.save(existingOrder);

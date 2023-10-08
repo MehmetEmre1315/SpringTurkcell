@@ -4,10 +4,10 @@ import com.turkcell.spring.first.business.abstracts.CategoryService;
 import com.turkcell.spring.first.business.exceptions.BusinessException;
 import com.turkcell.spring.first.entities.Category;
 import com.turkcell.spring.first.entities.dtos.category.CategoryForAddDto;
+import com.turkcell.spring.first.entities.dtos.category.CategoryForDeleteDto;
 import com.turkcell.spring.first.entities.dtos.category.CategoryForListingDto;
 import com.turkcell.spring.first.entities.dtos.category.CategoryForUpdateDto;
 import com.turkcell.spring.first.repositories.CategoryRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,57 +22,20 @@ public class CategoryManager implements CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
+    // Manager methods start
     @Override
-    public List<CategoryForListingDto> getAllCategories() {
+    public List<CategoryForListingDto> getAllCategoriesDto() {
         return categoryRepository.getForListing();
     }
 
-    @Override
-    public Category getCategory(int categoryId) {
-        Category category = categoryRepository.findById(categoryId).orElse(null);
-        return category;
-    }
 
     @Override
-    public void addCategory(Category category) {
-        categoryRepository.save(category);
-    }
-
-    @Override
-    public void deleteCategory(int categoryId) {
+    public void deleteCategoryDto(CategoryForDeleteDto request) {
+        int categoryId = request.getId();
         categoryRepository.deleteCategoryWithCategoryId(categoryId);
 
     }
-
     @Override
-    public Category updateCategory(int categoryId, Category category) {
-        Category existingCategory = categoryRepository.findById(categoryId).orElseThrow(() -> new EntityNotFoundException("Kategori bulunamadı"));
-        existingCategory.setCategoryName(category.getCategoryName());
-        return categoryRepository.save(existingCategory);
-    }
-
-
-
-    public List<Category> getCategoriesByName(String name){
-        List<Category> categories = categoryRepository.findByCategoryNameContaining(name);
-        return categories;
-    }
-    public List<Category> findByDescription(String description) {
-        List<Category> categories = categoryRepository.findByDescription(description);
-        return categories;
-    }
-    public List<Category> findByCategoryNameStartingWith(String prefix) {return categoryRepository.findByCategoryNameStartingWith(prefix);}
-    public List<Category> search(String name){
-        List<Category> categories = categoryRepository.searchNative(name);
-        return categories;
-    }
-    public List<Category> searchFirst(String categoryName) {return categoryRepository.searchFirst(categoryName);}
-    public List<Category> searchEnd(String categoryName) {return categoryRepository.searchEnd(categoryName);}
-    public List<Category> searchNative(String categoryName){
-        return categoryRepository.searchNative(categoryName);
-    }
-    public List<Category> searchNativeFirst(String categoryName){return categoryRepository.searchNativeFirst(categoryName);}
-
     public void addCategoryToDto(CategoryForAddDto request) {
 
         categoryWithSameNameShouldNotExist(request.getCategoryName());
@@ -80,22 +43,23 @@ public class CategoryManager implements CategoryService {
         productLimitForEachCategoryShouldNotBeMoreThan30(request.getCategoryName());
 
         Category category = new Category();
-        category.setCategoryName(request.getCategoryName());
+        category.setCategoryName( request.getCategoryName());
         category.setDescription(request.getDescription());
 
         categoryRepository.save(category);
     }
-
+    @Override
     public void updateCategoryDto(CategoryForUpdateDto request) {
 
-        Category existingCategory = categoryRepository.findByCategoryName(request.getCategoryName());
-        categoryUpdateDescriptionShouldNotBeSame(existingCategory, request);
+        categoryUpdateDescriptionShouldNotBeSame(categoryRepository.findByCategoryId(request.getId()), request);
 
+        Category existingCategory = categoryRepository.findByCategoryId(request.getId());
         existingCategory.setCategoryName(request.getCategoryName());
         existingCategory.setDescription(request.getDescription());
 
         categoryRepository.save(existingCategory);
     }
+    // Manager methods end
 
     // Business Rules Başlangıç
     private void categoryWithSameNameShouldNotExist(String categoryName){

@@ -1,15 +1,13 @@
 package com.turkcell.spring.first.entities.dtos.category;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryForListingDto {
-    private int categoryId;
+    private short categoryId;
     private String categoryName;
 }

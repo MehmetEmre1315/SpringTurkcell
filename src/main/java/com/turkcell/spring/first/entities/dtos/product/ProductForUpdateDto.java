@@ -1,16 +1,14 @@
 package com.turkcell.spring.first.entities.dtos.product;
 
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 
 @Data
-public class ProductForUpdate {
+public class ProductForUpdateDto {
 
-    @NotBlank(message = "Ürün Id girmek zorunludur.")
-    @Size(min=3)
-    private int productId;
+    @NotNull()
+    @Min(1)
+    private short productId;
 
     @NotBlank(message = "Ürün adı girmek zorunludur.")
     @Size(min=3)
@@ -20,10 +18,18 @@ public class ProductForUpdate {
     @NotBlank(message = "quantityPerUnit girmek zorunludur.")
     private String quantityPerUnit;
 
-    @NotBlank(message = "unitPrice girmek zorunludur.")
+    @NotNull(message = "unitPrice girmek zorunludur.")
     @DecimalMin(value = "0.0",inclusive = true,message = "Ürün Fiyatı 0.0 dan küçük olamaz")
-    private double unitPrice;
+    private float unitPrice;
 
     @DecimalMin(value = "0",inclusive = true)
-    private int unitsInStock;
+    private short unitsInStock;
+
+    @NotNull()
+    @Min(value = 1)
+    private short supplierId;
+
+    @NotNull()
+    @Min(value = 1)
+    private short categoryId;
 }

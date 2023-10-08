@@ -1,21 +1,18 @@
 package com.turkcell.spring.first.entities.dtos.product;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductForListingDto1 {
 
-    private int productId;
+    private short productId;
     private String productName;
-    private String quantityPerUnit;
-    private double unitPrice;
-    private int unitsInStock;
-    private int unitsOnOrder;
-    private int discontinued;
+//    private String quantityPerUnit;
+//    private float unitPrice;
+//    private short unitsInStock;
+//    private short unitsOnOrder;
+//    private short reorderLevel;
+//    private int discontinued;
 }
