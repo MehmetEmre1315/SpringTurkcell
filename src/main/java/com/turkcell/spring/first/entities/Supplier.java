@@ -2,18 +2,24 @@ package com.turkcell.spring.first.entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
 @Table(name="suppliers")
-@Data
 public class Supplier {
-    @Column(name="supplier_id")
     @Id
+    @Column(name="supplier_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int supplierID;
+    private short supplierID;
 
     @Column(name="company_name")
     private String companyName;
@@ -48,8 +54,8 @@ public class Supplier {
     @Column(name="homepage")
     private String homePage;
 
-
     @OneToMany(mappedBy= "supplier")
-    @JsonManagedReference
     private List<Product> products;
+
+
 }

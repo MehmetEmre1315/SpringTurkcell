@@ -1,46 +1,38 @@
 package com.turkcell.spring.first.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
-@Table(name="orders")
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name="orders")
+@Builder
 public class Order {
+
     @Id
-    @Column(name = "order_id")
-    private int orderId;
-
-    @ManyToOne()
-    @JoinColumn(name="customer_id")
-    @JsonBackReference
-    private Customer customer;
-
-    @ManyToOne()
-    @JoinColumn(name="employee_id")
-    @JsonBackReference
-    private Employee employee;
+    @Column(name="order_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private short orderId;
 
     @Column(name = "order_date")
-    private Date orderDate;
+    private LocalDate orderDate;
 
     @Column(name = "required_date")
-    private Date requiredDate;
+    private LocalDate requiredDate;
 
     @Column(name = "shipped_date")
-    private Date shippedDate;
-
-    @ManyToOne()
-    @JoinColumn(name="ship_via")
-    @JsonBackReference
-    private Shipper shipper;
+    private LocalDate shippedDate;
 
     @Column(name = "freight")
-    private double freight;
+    private float freight;
 
     @Column(name = "ship_name")
     private String shipName;
@@ -60,7 +52,19 @@ public class Order {
     @Column(name = "ship_country")
     private String shipCountry;
 
+    @ManyToOne()
+    @JoinColumn(name="employee_id")
+    private Employee employee;
+
+    @ManyToOne()
+    @JoinColumn(name="customer_id")
+    private Customer customer;
+
+    @ManyToOne()
+    @JoinColumn(name="ship_via")
+    private Shipper shipper;
+
     @OneToMany(mappedBy = "order")
-    private List<OrderDetails> orderDetails ;
+    private List<OrderDetail> orderDetails ;
 
 }

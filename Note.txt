@@ -1,0 +1,14 @@
+small int, javada short
+real, javada float
+ManyToOne ilk, sonra OneToMany yaz
+Tarih LocalDate
+
+@OneToMany(mappedBy = "order")
+private List<OrderDetail> orderDetails;
+//mapped by içi many to one da verdiğin değişken ismi
+@ManyToOne
+@JoinColumn(name="order_id")
+private Order order;//şu order
+
+
+

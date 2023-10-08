@@ -2,20 +2,29 @@ package com.turkcell.spring.first.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "employee_territory")
 public class EmployeeTerritory {
+
     @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private short id;
+
     @ManyToOne()
     @JoinColumn(name="employee_id")
-    @JsonBackReference
     private Employee employee;
 
     @ManyToOne()
     @JoinColumn(name="territory_id")
-    @JsonBackReference
     private Territory territory;
 }

@@ -1,6 +1,5 @@
 package com.turkcell.spring.first.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,20 +10,29 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Table(name="order_details")
 @Entity
-@Table(name="customer_customer_demo")
-public class CustomerCustomerDemo {
+public class OrderDetail {
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private short id;
 
-    @ManyToOne()
-    @JoinColumn(name="customer_id")
-    private Customer customer;
+    @Column(name = "unit_price")
+    private float unit_price;
+
+    @Column(name = "quantity")
+    private short quantity;
+
+    @Column(name = "discount")
+    private float discount;
 
     @ManyToOne()
-    @JoinColumn(name="customer_type_id")
-    private CustomerDemographic customerDemographic;
+    @JoinColumn(name = "order_id")
+    private Order order;
+
+    @ManyToOne()
+    @JoinColumn(name = "product_id")
+    private Product product;
 }

@@ -1,17 +1,23 @@
 package com.turkcell.spring.first.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
-@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Table(name="customers")
+@Entity
 public class Customer {
     @Id
     @Column(name = "customer_id")
-    private int customerId;
+    private String customerId;
 
     @Column(name = "company_name")
     private String companyName;

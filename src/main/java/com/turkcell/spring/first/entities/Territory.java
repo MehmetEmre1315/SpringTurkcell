@@ -1,9 +1,17 @@
 package com.turkcell.spring.first.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Table(name="territories")
 @Entity
 public class Territory {
@@ -17,4 +25,7 @@ public class Territory {
     @ManyToOne()
     @JoinColumn(name="region_id")
     private Region region;
+
+    @OneToMany(mappedBy ="territory")
+    private List<EmployeeTerritory> employeeTerritories;
 }

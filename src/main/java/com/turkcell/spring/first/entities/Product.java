@@ -1,28 +1,49 @@
 package com.turkcell.spring.first.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
-@Table(name="products")
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
+@Table(name="products")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="product_id")
-    private int productId;
+    private short productId;
 
     @Column(name="product_name")
     private String productName;
 
+    @Column(name="quantity_per_unit")
+    private String quantityPerUnit;
+
+    @Column(name="unit_price")
+    private float unitPrice;
+
+    @Column(name="units_in_stock")
+    private short unitsInStock;
+
+    @Column(name="units_on_order")
+    private short unitsOnOrder;
+
+    @Column(name="reorder_level")
+    private short reorderLevel;
+
+    @Column(name="discontinued")
+    private int discontinued;
+
     @ManyToOne()
     @JoinColumn(name="supplier_id")
-    @JsonBackReference
     private Supplier supplier;
 
     @ManyToOne()
@@ -30,27 +51,8 @@ public class Product {
     @JsonIgnore
     private Category category;
 
-    @Column(name="quantity_per_unit")
-    private String quantityPerUnit;
-
-    @Column(name="unit_price")
-    private double unitPrice;
-
-    @Column(name="units_in_stock")
-    private int unitsInStock;
-
-    @Column(name="units_on_order")
-    private int unitsOnOrder;
-
-    @Column(name="reorder_level")
-    private int reorderLevel;
-
-    @Column(name="discontinued")
-    private int discontinued;
-
     @OneToMany(mappedBy = "product") // Başlangıç
-    @JsonManagedReference
-    private List<OrderDetails> orderDetails; // Varış
+    private List<OrderDetail> orderDetails; // Varış
 
 
 }

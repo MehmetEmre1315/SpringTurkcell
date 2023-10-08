@@ -1,19 +1,25 @@
 package com.turkcell.spring.first.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
 @Table(name="employees")
 public class Employee {
     @Id
     @Column(name = "employee_id")
-    private int employeeId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private short employeeId;
 
     @Column(name = "last_name")
     private String lastName;
@@ -28,10 +34,10 @@ public class Employee {
     private String titleOfCourtesy;
 
     @Column(name = "birth_date")
-    private Date birthDate;
+    private LocalDate birthDate;
 
     @Column(name = "hire_date")
-    private Date hireDate;
+    private LocalDate hireDate;
 
     @Column(name = "address")
     private String address;
@@ -57,14 +63,16 @@ public class Employee {
     @Column(name = "notes")
     private String notes;
 
-    @ManyToOne
-    @JoinColumn(name = "reports_to")
-    @JsonBackReference
-    private Employee reportsTo;
+    @Column(name="reports_to")
+    private Short reportsTo;
+
+//    @ManyToOne
+//    @JoinColumn(name = "reports_to")
+//    private Employee reportsTo;
 
     @OneToMany(mappedBy = "employee")
     private List<Order> orders;
 
     @OneToMany(mappedBy = "employee")
-    private List<Employee> employee;
+    private List<EmployeeTerritory> employeeTerritories ;
 }
