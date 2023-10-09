@@ -1,87 +1,90 @@
 package com.turkcell.spring.first.business.concretes;
 
-import com.turkcell.spring.first.business.abstracts.OrderService;
+import com.turkcell.spring.first.business.abstracts.*;
 import com.turkcell.spring.first.business.exceptions.BusinessException;
+import com.turkcell.spring.first.entities.Customer;
+import com.turkcell.spring.first.entities.Employee;
 import com.turkcell.spring.first.entities.Order;
-import com.turkcell.spring.first.entities.Product;
 import com.turkcell.spring.first.entities.dtos.order.OrderForAddDto;
-import com.turkcell.spring.first.entities.dtos.order.OrderForUpdateDto;
+import com.turkcell.spring.first.entities.dtos.order.OrderForListingDto;
 import com.turkcell.spring.first.repositories.OrderRepository;
-import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
 public class OrderManager implements OrderService {
 
     private final OrderRepository orderRepository;
-    @Autowired
-    public OrderManager(OrderRepository orderRepository) {
+    private final OrderDetailService orderDetailService;
+    private final CustomerService customerService;
+    private final EmployeeService employeeService;
+    private final ProductService productService;
+
+    public OrderManager(OrderRepository orderRepository, OrderDetailService orderDetailService, CustomerService customerService, EmployeeService employeeService, ProductService productService) {
         this.orderRepository = orderRepository;
+        this.orderDetailService = orderDetailService;
+        this.customerService = customerService;
+        this.employeeService = employeeService;
+        this.productService = productService;
     }
 
+    // Manager methods start
     @Override
-    public void addOrder(Order order) {
-        orderRepository.save(order);
+    public OrderForListingDto getOrdersByIdDto(short orderId) {
+        OrderForListingDto orderForListingDto = new OrderForListingDto();
+        Order order = orderRepository.findByOrderId(orderId);
+        return null;
     }
-
     @Override
-    public void deleteOrder(int orderId) {
-        orderRepository.deleteById(orderId);
+    @Transactional // metotun tamamen başarılı bir şekilde bitmesini bekleyip değişiklikleri o şekilde pushlayan metot
+    public void add(OrderForAddDto request) {
+        // Order'ı dbye kaydet, orderin bir id'si oluşsun..
+        // oluşan id'yi ve itemları orderdetail service gönder o da bu idye detay eklemelerini yapsın..
+        customerIdShouldExist(request.getCustomerId());
+        employeeIdShouldExist(request.getEmployeeId());
+        requiredDateShouldBeBiggerThanOrderDate(request.getRequiredDate(), LocalDate.now());
+
+        Order order = Order.builder()
+                .customer(Customer.builder().customerId(request.getCustomerId()).build())
+                .orderDate(LocalDate.now())
+                .employee(Employee.builder().employeeId(request.getEmployeeId()).build())
+                .requiredDate(request.getRequiredDate())
+                .shipAddress(request.getShipAddress())
+                .shipCity(request.getShipCity())
+                .shipName(request.getShipName())
+                .shipRegion(request.getShipRegion())
+                .build();
+
+        order = orderRepository.save(order);  // gönderen hesaptan parayı düş
+
+        // bu satırdan sonra order'ın id alanı set edilmiş..
+        orderDetailService.addItemsToOrder(order, request.getItems()); // gönderilen hesaba parayı göndermek
     }
-
-    @Override
-    public Order updateOrder(int orderId, Order order) {
-        Order existingOrder = orderRepository.findById(orderId).orElseThrow(() -> new EntityNotFoundException("Sipariş bulunamadı"));
-        //existingOrder.setCustomerId(order.getCustomerId());
-        return orderRepository.save(existingOrder);
-    }
-
-    @Override
-    public Order getOrder(int orderId) {
-        return orderRepository.findById(orderId).orElseThrow(() -> new EntityNotFoundException("Sipariş bulunamadı"));
-    }
-
-    @Override
-    public List<Order> getAllOrders() {
-        return orderRepository.findAll();
-    }
-
-    @Override
-    public void addOrderToDto(OrderForAddDto request) {
-
-        orderWithSameOrderIdShouldNotExist(request.getOrderId());
-        allLetterOfCustomerIdShouldBeUpperCase(request.getCustomerId());
-
-        Order order = new Order();
-        //order.setOrderId(request.getOrderId());
-        //order.setCustomerId(request.getCustomerId());
-        //order.setOrderDate(request.getOrderDate());
-        //order.setShippedDate(request.getShippedDate());
-        order.setShipName(request.getShipName());
-
-        orderRepository.save(order);
-    }
-
-    @Override
-    public void updateOrderToDto(OrderForUpdateDto request) {
-
-        allLetterOfCustomerIdShouldBeUpperCase(request.getCustomerId());
-        orderIdShouldBeBiggerThan10000(request.getOrderId());
-
-        Order existingOrder = orderRepository.findByOrderId(request.getOrderId());
-        //existingOrder.setOrderId(request.getOrderId());
-        //existingOrder.setCustomerId(request.getCustomerId());
-        //existingOrder.setOrderDate(request.getOrderDate());
-        //existingOrder.setShippedDate(request.getShippedDate());
-        existingOrder.setShipName(request.getShipName());
-
-        orderRepository.save(existingOrder);
-    }
+    // Manager methods end
 
     // Business Rules Başlangıç
+
+
+
+    private void requiredDateShouldBeBiggerThanOrderDate(LocalDate requiredDate, LocalDate orderDate){
+        if(requiredDate.isBefore(orderDate)){
+            throw new BusinessException("Requried date, order date tarihinden önce olamaz.");
+        }
+    }
+
+    private void customerIdShouldExist(String customerId){
+        if(customerService.checkCustomerExists(customerId) == false){
+            throw new BusinessException("Müşteri bulunamadı.");
+        }
+    }
+    private void employeeIdShouldExist(short employeeId){
+        if(employeeService.checkEmployeeExists(employeeId) == false){
+            throw new BusinessException("Çalışan bulunamadı.");
+        }
+    }
     private void orderWithSameOrderIdShouldNotExist(int orderId){
         Order orderWithSameOrderId = orderRepository.findByOrderId(orderId);
         if(orderWithSameOrderId != null){

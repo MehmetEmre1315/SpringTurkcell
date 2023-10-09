@@ -15,4 +15,9 @@ public interface ProductService {
     void addProductToDto(ProductForAddDto request);
     void updateProductDto(ProductForUpdateDto request);
     void deleteProductDto(ProductForDeleteDto request);
+
+    float getProductPrice(short productId);
+
+    short getProductStockValue(short productId);
+    void setProductStockValue(short productId, short stockValue);
 }

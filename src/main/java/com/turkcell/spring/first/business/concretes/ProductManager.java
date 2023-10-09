@@ -22,6 +22,24 @@ public class ProductManager implements ProductService {
         this.productRepository = productRepository;
     }
 
+    @Override
+    public float getProductPrice(short productId) {
+        Product product = productRepository.findProductByProductId(productId);
+        return product.getUnitPrice();
+    }
+    @Override
+    public short getProductStockValue(short productId){
+        Product product = productRepository.findProductByProductId(productId);
+        return product.getUnitsInStock();
+    }
+    @Override
+    public void setProductStockValue(short productId, short stockValue){
+        Product product = productRepository.findProductByProductId(productId);
+        product.setUnitsInStock(stockValue);
+        productRepository.save(product);
+    }
+
+
     // Manager methods start
 
     @Override

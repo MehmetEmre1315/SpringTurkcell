@@ -20,7 +20,7 @@ public class OrderDetail {
     private short id;
 
     @Column(name = "unit_price")
-    private float unit_price;
+    private float unitPrice;
 
     @Column(name = "quantity")
     private short quantity;
