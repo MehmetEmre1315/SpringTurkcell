@@ -22,7 +22,7 @@ public class OrderForAddDto {
     //@NotBlank
     //private LocalDate orderDate;
     private LocalDate requiredDate;
-    private short shipVia;
+    private short shipperId;
     private float freight;
     @NotBlank
     @Size(min=3)

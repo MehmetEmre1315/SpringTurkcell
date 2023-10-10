@@ -1,6 +1,6 @@
-package com.turkcell.spring.first;
+package com.turkcell.spring.first.core.exceptions;
 
-import com.turkcell.spring.first.business.exceptions.BusinessException;
+import com.turkcell.spring.first.core.exceptions.types.BusinessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;

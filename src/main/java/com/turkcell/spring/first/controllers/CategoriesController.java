@@ -8,6 +8,7 @@ import com.turkcell.spring.first.entities.dtos.category.CategoryForDeleteDto;
 import com.turkcell.spring.first.entities.dtos.category.CategoryForListingDto;
 import com.turkcell.spring.first.entities.dtos.category.CategoryForUpdateDto;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ import java.util.List;
 public class CategoriesController {
 
     private CategoryService categoryService;
-    @Autowired
+
     public CategoriesController(CategoryService categoryService) {
         this.categoryService = categoryService;
     }

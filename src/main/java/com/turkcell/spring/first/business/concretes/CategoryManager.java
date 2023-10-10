@@ -1,26 +1,27 @@
 package com.turkcell.spring.first.business.concretes;
 
 import com.turkcell.spring.first.business.abstracts.CategoryService;
-import com.turkcell.spring.first.business.exceptions.BusinessException;
+import com.turkcell.spring.first.core.exceptions.types.BusinessException;
 import com.turkcell.spring.first.entities.Category;
 import com.turkcell.spring.first.entities.dtos.category.CategoryForAddDto;
 import com.turkcell.spring.first.entities.dtos.category.CategoryForDeleteDto;
 import com.turkcell.spring.first.entities.dtos.category.CategoryForListingDto;
 import com.turkcell.spring.first.entities.dtos.category.CategoryForUpdateDto;
 import com.turkcell.spring.first.repositories.CategoryRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CategoryManager implements CategoryService {
 
     private final CategoryRepository categoryRepository;
-    @Autowired
-    public CategoryManager(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
+    private final MessageSource messageSource;
 
     // Manager methods start
     @Override
@@ -65,22 +66,22 @@ public class CategoryManager implements CategoryService {
     private void categoryWithSameNameShouldNotExist(String categoryName){
         Category categoryWithSameName = categoryRepository.findByCategoryName(categoryName);
         if(categoryWithSameName != null){
-            throw new BusinessException("Aynı kategori isminden 2 kategori bulunamaz.");
+            throw new BusinessException(messageSource.getMessage("categoryWithSameNameShouldNotExist", null, LocaleContextHolder.getLocale()));
         }
     }
     private void categoryUpdateDescriptionShouldNotBeSame(Category existingCategory, CategoryForUpdateDto request){
         if(existingCategory.getDescription().equals(request.getDescription())){
-            throw new BusinessException("Kategori açıklaması aynı olamaz");
+            throw new BusinessException(messageSource.getMessage("categoryUpdateDescriptionShouldNotBeSame", null, LocaleContextHolder.getLocale()));
         }
     }
     private void productLimitForEachCategoryShouldNotBeMoreThan30 (String categoryName){
         if(categoryRepository.getTotalProductCountByCategoryName(categoryName) > 30){
-            throw new BusinessException("Bir kategoride en fazla 30 öğe olabilir.");
+            throw new BusinessException(messageSource.getMessage("productLimitForEachCategoryShouldNotBeMoreThan30", null, LocaleContextHolder.getLocale()));
         }
     }
     private void firstLetterShouldBeUpperCase(String categoryName){
         if(!Character.isUpperCase(categoryName.charAt(0))){
-            throw new BusinessException("Kategori ismi ilk harfi büyük olmalıdır.");
+            throw new BusinessException(messageSource.getMessage("firstLetterShouldBeUpperCase", null, LocaleContextHolder.getLocale()));
         }
     }
     // Business Rules Bitiş

@@ -2,7 +2,7 @@ package com.turkcell.spring.first.business.concretes;
 
 import com.turkcell.spring.first.business.abstracts.OrderDetailService;
 import com.turkcell.spring.first.business.abstracts.ProductService;
-import com.turkcell.spring.first.business.exceptions.BusinessException;
+import com.turkcell.spring.first.core.exceptions.types.BusinessException;
 import com.turkcell.spring.first.entities.Order;
 import com.turkcell.spring.first.entities.OrderDetail;
 import com.turkcell.spring.first.entities.Product;
