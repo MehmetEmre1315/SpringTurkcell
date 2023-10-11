@@ -8,19 +8,20 @@ import com.turkcell.spring.first.entities.Product;
 import com.turkcell.spring.first.entities.Supplier;
 import com.turkcell.spring.first.entities.dtos.product.*;
 import com.turkcell.spring.first.repositories.ProductRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ProductManager implements ProductService {
 
     private final ProductRepository productRepository;
-    @Autowired
-    public ProductManager(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
+    private final MessageSource messageSource;
 
     @Override
     public float getProductPrice(short productId) {
@@ -97,17 +98,17 @@ public class ProductManager implements ProductService {
     private void productWithSameNameShouldNotExist(String productName){
         Product productWithSameName = productRepository.findProductByProductName(productName);
         if(productWithSameName != null){
-            throw new BusinessException("Aynı ürün isminden 2 adet bulunamaz.");
+            throw new BusinessException(messageSource.getMessage("productWithSameNameShouldNotExist", null, LocaleContextHolder.getLocale()));
         }
     }
     private void productUnitPriceShouldNotBe99 (double unitPrice){
         if(unitPrice == 99.00){
-            throw new BusinessException("Ürünün fiyatı 99.00 olamaz.");
+            throw new BusinessException(messageSource.getMessage("productUnitPriceShouldNotBe99", null, LocaleContextHolder.getLocale()));
         }
     }
     private void firstLetterShouldBeUpperCase(String productName){
         if(!Character.isUpperCase(productName.charAt(0))){
-            throw new BusinessException("Ürün ismi ilk harfi büyük olmalıdır.");
+            throw new BusinessException(messageSource.getMessage("firstLetterShouldBeUpperCaseProduct", null, LocaleContextHolder.getLocale()));
         }
     }
     // Business Rules Bitiş

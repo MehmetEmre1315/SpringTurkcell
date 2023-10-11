@@ -2,8 +2,6 @@ package com.turkcell.spring.first.business.concretes;
 
 import com.turkcell.spring.first.business.abstracts.*;
 import com.turkcell.spring.first.core.exceptions.types.BusinessException;
-import com.turkcell.spring.first.entities.Customer;
-import com.turkcell.spring.first.entities.Employee;
 import com.turkcell.spring.first.entities.Order;
 import com.turkcell.spring.first.entities.dtos.order.OrderForAddDto;
 import com.turkcell.spring.first.entities.dtos.order.OrderForListingDto;
@@ -11,10 +9,11 @@ import com.turkcell.spring.first.repositories.OrderRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +25,7 @@ public class OrderManager implements OrderService {
     private final EmployeeService employeeService;
     private final ProductService productService;
     private final ModelMapper modelMapper;
+    private final MessageSource messageSource;
 
     // Manager methods start
     @Override
@@ -42,21 +42,6 @@ public class OrderManager implements OrderService {
         employeeIdShouldExist(request.getEmployeeId());
         requiredDateShouldBeBiggerThanOrderDate(request.getRequiredDate(), LocalDate.now());
 
-        /*
-        // Builder ile manuel mapping
-        Order order = Order.builder()
-                .customer(Customer.builder().customerId(request.getCustomerId()).build())
-                .orderDate(LocalDate.now())
-                .employee(Employee.builder().employeeId(request.getEmployeeId()).build())
-                .requiredDate(request.getRequiredDate())
-                .shipAddress(request.getShipAddress())
-                .shipCity(request.getShipCity())
-                .shipName(request.getShipName())
-                .shipRegion(request.getShipRegion())
-                .build();
-        order = orderRepository.save(order);
-        */
-
         // Auto mapping
         Order orderFromAutoMapping = modelMapper.map(request, Order.class);
         orderFromAutoMapping = orderRepository.save(orderFromAutoMapping);
@@ -71,34 +56,34 @@ public class OrderManager implements OrderService {
 
     private void requiredDateShouldBeBiggerThanOrderDate(LocalDate requiredDate, LocalDate orderDate){
         if(requiredDate.isBefore(orderDate)){
-            throw new BusinessException("Requried date, order date tarihinden önce olamaz.");
+            throw new BusinessException(messageSource.getMessage("requiredDateShouldBeBiggerThanOrderDate", null, LocaleContextHolder.getLocale()));
         }
     }
 
     private void customerIdShouldExist(String customerId){
-        if(customerService.checkCustomerExists(customerId) == false){
-            throw new BusinessException("Müşteri bulunamadı.");
+        if(!customerService.checkCustomerExists(customerId)){
+            throw new BusinessException(messageSource.getMessage("customerIdShouldExist", new Object[] {customerId}, LocaleContextHolder.getLocale()));
         }
     }
     private void employeeIdShouldExist(short employeeId){
-        if(employeeService.checkEmployeeExists(employeeId) == false){
-            throw new BusinessException("Çalışan bulunamadı.");
+        if(!employeeService.checkEmployeeExists(employeeId)){
+            throw new BusinessException(messageSource.getMessage("employeeIdShouldExist", new Object[] {employeeId}, LocaleContextHolder.getLocale()));
         }
     }
     private void orderWithSameOrderIdShouldNotExist(int orderId){
         Order orderWithSameOrderId = orderRepository.findByOrderId(orderId);
         if(orderWithSameOrderId != null){
-            throw new BusinessException("Aynı sipariş id'inden 2 adet bulunamaz.");
+            throw new BusinessException(messageSource.getMessage("orderWithSameOrderIdShouldNotExist", null, LocaleContextHolder.getLocale()));
         }
     }
     private void orderIdShouldBeBiggerThan10000 (int orderId){
         if(orderId <= 10000){
-            throw new BusinessException("Order id 10000'den büyük olmalıdır.");
+            throw new BusinessException(messageSource.getMessage("orderIdShouldBeBiggerThan10000", null, LocaleContextHolder.getLocale()));
         }
     }
     private void allLetterOfCustomerIdShouldBeUpperCase(String customerId){
         if(!customerId.equals(customerId.toUpperCase())){
-            throw new BusinessException("Müşteri id'si büyük harfle yazılmalıdır.");
+            throw new BusinessException(messageSource.getMessage("allLetterOfCustomerIdShouldBeUpperCase", null, LocaleContextHolder.getLocale()));
         }
     }
     // Business Rules Bitiş

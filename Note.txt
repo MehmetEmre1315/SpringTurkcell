@@ -11,4 +11,18 @@ private List<OrderDetail> orderDetails;
 private Order order;//şu order
 
 
+Builder ile manuel mapping
+Order order = Order.builder()
+        .customer(Customer.builder().customerId(request.getCustomerId()).build())
+        .orderDate(LocalDate.now())
+        .employee(Employee.builder().employeeId(request.getEmployeeId()).build())
+        .requiredDate(request.getRequiredDate())
+        .shipAddress(request.getShipAddress())
+        .shipCity(request.getShipCity())
+        .shipName(request.getShipName())
+        .shipRegion(request.getShipRegion())
+        .build();
+order = orderRepository.save(order);
+
+
 
