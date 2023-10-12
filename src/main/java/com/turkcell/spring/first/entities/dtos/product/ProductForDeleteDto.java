@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class ProductForDeleteDto {
-    @NotNull()
-    @Min(1)
+    @NotNull(message = "{idFieldIsMandatory}" )
+    @Min(value = 1, message = "{idFieldShouldBeGreaterThanValue}")
     private short id;
 }

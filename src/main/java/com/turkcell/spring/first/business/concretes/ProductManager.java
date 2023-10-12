@@ -9,6 +9,7 @@ import com.turkcell.spring.first.entities.Supplier;
 import com.turkcell.spring.first.entities.dtos.product.*;
 import com.turkcell.spring.first.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -22,6 +23,7 @@ public class ProductManager implements ProductService {
 
     private final ProductRepository productRepository;
     private final MessageSource messageSource;
+    private final ModelMapper modelMapper;
 
     @Override
     public float getProductPrice(short productId) {

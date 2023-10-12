@@ -6,8 +6,8 @@ import lombok.Data;
 @Data
 public class ProductForUpdateDto {
 
-    @NotNull()
-    @Min(1)
+    @NotNull(message = "{idFieldIsMandatory}" )
+    @Min(value = 1, message = "{idFieldShouldBeGreaterThanValue}")
     private short productId;
 
     @NotBlank(message = "Ürün adı girmek zorunludur.")
@@ -25,11 +25,11 @@ public class ProductForUpdateDto {
     @DecimalMin(value = "0",inclusive = true)
     private short unitsInStock;
 
-    @NotNull()
-    @Min(value = 1)
+    @NotNull(message = "{idFieldIsMandatory}" )
+    @Min(value = 1, message = "{idFieldShouldBeGreaterThanValue}")
     private short supplierId;
 
-    @NotNull()
-    @Min(value = 1)
+    @NotNull(message = "{idFieldIsMandatory}" )
+    @Min(value = 1, message = "{idFieldShouldBeGreaterThanValue}")
     private short categoryId;
 }

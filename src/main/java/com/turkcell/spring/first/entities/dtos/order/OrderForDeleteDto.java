@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 public class OrderForDeleteDto {
 
-    @NotBlank(message = "orderId  girmek zorunludur.")
+    @NotBlank(message = "{notBlank}")
     private int orderId;
 }

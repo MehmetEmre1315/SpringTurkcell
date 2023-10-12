@@ -9,6 +9,7 @@ import com.turkcell.spring.first.entities.Product;
 import com.turkcell.spring.first.entities.dtos.orderdetail.OrderDetailForAddDto;
 import com.turkcell.spring.first.repositories.OrderDetailRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ public class OrderDetailManager implements OrderDetailService {
     private final OrderDetailRepository orderDetailRepository;
     private final ProductService productService;
     private final MessageSource messageSource;
+    private final ModelMapper modelMapper;
 
     @Override
     public void addItemsToOrder(Order order, List<OrderDetailForAddDto> items) {

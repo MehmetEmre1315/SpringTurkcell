@@ -9,6 +9,8 @@ import com.turkcell.spring.first.entities.dtos.category.CategoryForListingDto;
 import com.turkcell.spring.first.entities.dtos.category.CategoryForUpdateDto;
 import com.turkcell.spring.first.repositories.CategoryRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,7 @@ public class CategoryManager implements CategoryService {
 
     private final CategoryRepository categoryRepository;
     private final MessageSource messageSource;
+    private final ModelMapper modelMapper;
 
     // Manager methods start
     @Override
@@ -42,6 +45,10 @@ public class CategoryManager implements CategoryService {
         firstLetterShouldBeUpperCase(request.getCategoryName());
         productLimitForEachCategoryShouldNotBeMoreThan30(request.getCategoryName());
 
+//        modelMapper.getConfiguration().setAmbiguityIgnored(true).setMatchingStrategy(MatchingStrategies.STANDARD);
+//        Category categoryFromAutoMapping = modelMapper.map(request, Category.class);
+//        categoryRepository.save(categoryFromAutoMapping);
+
         Category category = new Category();
         category.setCategoryName( request.getCategoryName());
         category.setDescription(request.getDescription());
@@ -52,6 +59,12 @@ public class CategoryManager implements CategoryService {
     public void updateCategoryDto(CategoryForUpdateDto request) {
 
         categoryUpdateDescriptionShouldNotBeSame(categoryRepository.findByCategoryId(request.getId()), request);
+
+//        Category categoryFromAutoMapping = categoryRepository.findByCategoryId(request.getId());
+//        categoryFromAutoMapping = modelMapper.map(request, Category.class);
+//        categoryRepository.save(categoryFromAutoMapping);
+
+
 
         Category existingCategory = categoryRepository.findByCategoryId(request.getId());
         existingCategory.setCategoryName(request.getCategoryName());

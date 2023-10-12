@@ -25,11 +25,11 @@ public class ProductForAddDto {
     @Max(1)
     private int discontinued;
 
-    @NotNull()
-    @Min(value = 1)
+    @NotNull(message = "{idFieldIsMandatory}" )
+    @Min(value = 1, message = "{idFieldShouldBeGreaterThanValue}")
     private short supplierId;
 
-    @NotNull()
-    @Min(value = 1)
+    @NotNull(message = "{idFieldIsMandatory}" )
+    @Min(value = 1, message = "{idFieldShouldBeGreaterThanValue}")
     private short categoryId;
 }

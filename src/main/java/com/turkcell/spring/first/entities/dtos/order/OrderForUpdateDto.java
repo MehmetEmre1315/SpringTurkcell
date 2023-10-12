@@ -9,20 +9,20 @@ import java.util.Date;
 @Data
 public class OrderForUpdateDto {
 
-    @NotBlank(message = "orderId  girmek zorunludur.")
+    @NotBlank(message = "{notBlank}")
     private int orderId;
 
-    @NotBlank
+    @NotBlank(message = "{notBlank}")
     @Size(min=3,max=10)
     private String customerId;
 
-    @NotBlank
+    @NotBlank(message = "{notBlank}")
     private Date orderDate;
 
-    @NotBlank
+    @NotBlank(message = "{notBlank}")
     private Date shippedDate;
 
-    @NotBlank
+    @NotBlank(message = "{notBlank}")
     @Size(min=3)
     private String shipName;
 }

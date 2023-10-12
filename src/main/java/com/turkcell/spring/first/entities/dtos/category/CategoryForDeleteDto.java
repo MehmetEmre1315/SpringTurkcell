@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class CategoryForDeleteDto {
 
-    @NotNull()
-    @Min(1)
+    @NotNull(message = "{idFieldIsMandatory}" )
+    @Min(value = 1, message = "{idFieldShouldBeGreaterThanValue}")
     private int id;
 }

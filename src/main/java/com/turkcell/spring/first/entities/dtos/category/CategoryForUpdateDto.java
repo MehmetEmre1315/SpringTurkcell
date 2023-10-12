@@ -6,16 +6,16 @@ import lombok.Data;
 @Data
 public class CategoryForUpdateDto {
 
-    @NotNull()
-    @Min(1)
+    @NotNull(message = "{idFieldIsMandatory}" )
+    @Min(value = 1, message = "{idFieldShouldBeGreaterThanValue}")
     private int id;
 
-    @NotBlank(message = "Kategori adı girmek zorunludur.")
-    @Size(min=5,message = "{categoryNameShouldBeMinimum}")
+    @NotBlank(message = "{categoryNameIsMandatory}")
+    @Size(min=5, message = "{categoryNameShouldBeMinimum}")
     private String categoryName;
 
-    @NotBlank(message = "Açıklama alanı zorunludur.")
-    @Size(max= 50)
+    @NotBlank(message = "{descriptionFieldIsMandatory}")
+    @Size(max= 50,  message = "{maxSize}")
     private String description;
 
 }

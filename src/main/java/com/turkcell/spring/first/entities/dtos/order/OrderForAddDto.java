@@ -16,18 +16,18 @@ public class OrderForAddDto {
     @NotBlank
     @Size(min=3,max=10)
     private String customerId;
-    @NotNull()
-    @Min(1)
+    @NotNull(message = "{idFieldIsMandatory}" )
+    @Min(value = 1, message = "{idFieldShouldBeGreaterThanValue}")
     private short employeeId;
     //@NotBlank
     //private LocalDate orderDate;
     private LocalDate requiredDate;
     private short shipperId;
     private float freight;
-    @NotBlank
+    @NotBlank(message = "{notBlank}")
     @Size(min=3)
     private String shipName;
-    @NotBlank
+    @NotBlank(message = "{notBlank}")
     private String shipAddress;
     private String shipCity;
     private String shipRegion;

@@ -5,12 +5,12 @@ import lombok.Data;
 
 @Data // Getter+Setter
 public class CategoryForAddDto {
-    @NotBlank(message = "Kategori adı girmek zorunludur.")
+    @NotBlank(message = "{categoryNameIsMandatory}")
     @Size(min=3,max=10,  message="{categoryNameShouldBeMinimum}")
     private String categoryName;
 
-    @NotBlank(message = "Açıklama alanı zorunludur.")
-    @Size(max= 50)
+    @NotBlank(message = "{descriptionFieldIsMandatory}")
+    @Size(max= 50,  message = "{maxSize}")
     private String description;
 
 }
