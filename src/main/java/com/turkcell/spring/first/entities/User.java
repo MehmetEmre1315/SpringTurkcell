@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Supplier;
 
 @Entity
 @Table(name="users")
@@ -29,13 +30,18 @@ public class User implements UserDetails {
     private String lastName;
     private String username;
     private String password;
-    private String role;
+//    @Column(name = "role_id")
+//    private short roleId;
+    @ManyToOne()
+    @JoinColumn(name="role_id")
+    private UserRoles role;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // roller
         // todo: refactor with multiple roles
-        return List.of(new SimpleGrantedAuthority(role));
+        return List.of(new SimpleGrantedAuthority(role.getRole()));
     }
 
 

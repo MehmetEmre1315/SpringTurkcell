@@ -33,7 +33,8 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req -> req
                         .requestMatchers(WHITE_LIST_URLS).permitAll()
-                        .requestMatchers(HttpMethod.POST,"/categories/**").hasAnyAuthority("Admin","Category.Admin","Global.Admin")
+                        .requestMatchers("/categories/**").hasAnyAuthority("Admin","Category.Admin","Global.Admin","Category Admin")
+                        .requestMatchers("/products/**").hasAnyAuthority("Admin", "Product Admin")
                         .anyRequest().authenticated())
                 .authenticationProvider(authenticationProvider)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
