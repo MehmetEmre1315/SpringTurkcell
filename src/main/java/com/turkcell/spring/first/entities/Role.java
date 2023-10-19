@@ -1,27 +1,26 @@
 package com.turkcell.spring.first.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
-@Table(name="user_roles")
+@Table(name="roles")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserRoles {
+@ToString(exclude = {"users"})
+public class Role {
     @Id
     @Column(name="id")
     @GeneratedValue()
     private Integer id;
-    @Column(name = "role")
-    private String role;
 
-    @OneToMany(mappedBy = "role")
+    private String name;
+
+    @ManyToMany(mappedBy = "roles")
     private List<User> users;
+
 }

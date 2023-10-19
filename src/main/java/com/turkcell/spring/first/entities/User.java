@@ -30,18 +30,24 @@ public class User implements UserDetails {
     private String lastName;
     private String username;
     private String password;
-//    @Column(name = "role_id")
-//    private short roleId;
-    @ManyToOne()
-    @JoinColumn(name="role_id")
-    private UserRoles role;
+    private String role;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name="users_roles",
+            joinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns = @JoinColumn(name="role_id")
+    )
+    private List<Role> roles;
 
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // roller
         // todo: refactor with multiple roles
-        return List.of(new SimpleGrantedAuthority(role.getRole()));
+        List<SimpleGrantedAuthority> listOfRoles =
+                roles.stream().map((role) -> new SimpleGrantedAuthority(role.getName())).toList();
+        return listOfRoles;
     }
 
 
